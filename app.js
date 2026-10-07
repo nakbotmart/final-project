@@ -18,14 +18,14 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // --------------------------------------------------------
-// MODULE 1: Anonymization & Security Guardrails
+// MODULE 1: Anonymization Engine & Privacy Guardrails
 // --------------------------------------------------------
 function anonymizeData(text) {
     if (!text) return { cleanedText: "", maskedCount: 0 };
     
     let maskedCount = 0;
     let cleanedText = text
-        .replace(/\b\d{9,10}\b/g, () => { maskedCount++; return "[STUDENT_ID_HIDDEN]"; })
+        .replace(/\b\d{8,11}\b/g, () => { maskedCount++; return "[STUDENT_ID_HIDDEN]"; })
         .replace(/\b0\d{8,9}\b/g, () => { maskedCount++; return "[PHONE_HIDDEN]"; })
         .replace(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g, () => { maskedCount++; return "[EMAIL_HIDDEN]"; });
 
@@ -37,31 +37,27 @@ function detectCrisisKeywords(text) {
     return crisisKeywords.some(keyword => text.includes(keyword));
 }
 
-// คำนวณคะแนนความปลอดภัยของข้อมูลผู้ใช้ (Safety Score 0-100%)
-function calculateUserSafetyMetrics(rawText, maskedCount, isCrisis) {
+function calculateUserSafetyMetrics(maskedCount, isCrisis) {
     let safetyScore = 100;
-    let statusText = "100% Anonymized & Secure";
+    let statusText = "100% Anonymized & Shielded";
 
     if (maskedCount > 0) {
         statusText = `Data Shielded (${maskedCount} PII Masked)`;
     }
     if (isCrisis) {
-        statusText = "Crisis Alert Intercepted";
+        statusText = "Crisis Intercepted Safely";
     }
 
-    return {
-        score: safetyScore,
-        status: statusText
-    };
+    return { score: safetyScore, status: statusText };
 }
 
 // --------------------------------------------------------
-// MODULE 2: Psychometric & Multi-Vector Stress Engine
+// MODULE 2: Psychometrics & Sentiment Calculation
 // --------------------------------------------------------
 function calculateLexiconSentiment(text) {
     if (!text) return 0.0;
-    const positiveWords = ["สบายใจ", "โอเค", "พร้อม", "มั่นใจ", "สนุก", "ผ่อนคลาย"];
-    const negativeWords = ["เครียด", "กังวล", "เหนื่อย", "กลัว", "ไม่ทัน", "ท้อ"];
+    const positiveWords = ["สบายใจ", "โอเค", "พร้อม", "มั่นใจ", "สนุก", "ผ่อนคลาย", "ราบรื่น"];
+    const negativeWords = ["เครียด", "กังวล", "เหนื่อย", "กลัว", "ไม่ทัน", "ท้อ", "หนักใจ"];
     
     let score = 0;
     positiveWords.forEach(w => { if (text.includes(w)) score += 0.25; });
@@ -89,35 +85,35 @@ function runAnalyticsEngine(inputs) {
 
     let riskLevel = "LOW";
     let riskSubtitle = "ภาวะสมดุลการเรียนปกติ";
-    let riskClass = "var(--risk-low)";
+    let badgeClass = "low";
 
     if (finalStressIndex >= 75) { 
         riskLevel = "CRITICAL"; 
-        riskSubtitle = "ภาวะเสี่ยงวิกฤต/เสี่ยงต่อการเสื่อมถอย";
-        riskClass = "var(--risk-high)"; 
+        riskSubtitle = "ภาวะเสี่ยงวิกฤต/เสี่ยงต่อภาวะถดถอย";
+        badgeClass = "critical"; 
     }
     else if (finalStressIndex >= 50) { 
         riskLevel = "HIGH"; 
         riskSubtitle = "ภาวะเสี่ยงความเครียดสะสมสูง";
-        riskClass = "var(--risk-high)"; 
+        badgeClass = "high"; 
     }
     else if (finalStressIndex >= 30) { 
         riskLevel = "MEDIUM"; 
         riskSubtitle = "ภาวะเสี่ยงความเครียดระดับปานกลาง";
-        riskClass = "var(--risk-med)"; 
+        badgeClass = "med"; 
     }
 
     return {
         stressIndex: finalStressIndex,
         riskLevel: riskLevel,
         riskSubtitle: riskSubtitle,
-        riskClass: riskClass,
+        badgeClass: badgeClass,
         psychometricSum: psychometricSum
     };
 }
 
 // --------------------------------------------------------
-// MODULE 3: Adaptive Schedule & Recommendation Logic
+// MODULE 3: Adaptive Pomodoro Schedule Generator
 // --------------------------------------------------------
 function generateAdaptiveSchedule(stressIndex) {
     if (stressIndex >= 50) {
@@ -137,7 +133,7 @@ function generateAdaptiveSchedule(stressIndex) {
 }
 
 // --------------------------------------------------------
-// MODULE 4: Simulation Pipeline & UI Renderer
+// MODULE 4: Execution Pipeline & Dashboard Renderer
 // --------------------------------------------------------
 async function processAnalyticsPipeline() {
     const overlay = document.getElementById("loadingOverlay");
@@ -175,30 +171,30 @@ async function processAnalyticsPipeline() {
 
     const results = runAnalyticsEngine(inputs);
     const isCrisis = detectCrisisKeywords(cleanedText) || results.stressIndex >= 75;
-    const safetyMetrics = calculateUserSafetyMetrics(rawText, maskedCount, isCrisis);
+    const safetyMetrics = calculateUserSafetyMetrics(maskedCount, isCrisis);
 
-    // อัปเดต Stress Index & Bar
+    // Render Stress Index
     const stressScore = document.getElementById("stressScore");
     if (stressScore) stressScore.innerText = results.stressIndex;
 
     const stressProgressBar = document.getElementById("stressProgressBar");
     if (stressProgressBar) stressProgressBar.style.width = `${results.stressIndex}%`;
     
-    // อัปเดต Burnout Risk Badge
+    // Render Risk Badge
     const badge = document.getElementById("burnoutRiskBadge");
     if (badge) {
         badge.innerText = results.riskLevel;
-        badge.style.backgroundColor = results.riskClass;
+        badge.className = `badge-tag ${results.badgeClass}`;
         
-        const riskDesc = badge.nextElementSibling;
-        if (riskDesc) riskDesc.innerText = results.riskSubtitle;
+        const riskSub = document.getElementById("burnoutRiskSub");
+        if (riskSub) riskSub.innerText = results.riskSubtitle;
     }
 
-    // อัปเดต NLP Sentiment
+    // Render Sentiment Score
     const sentimentScore = document.getElementById("sentimentScore");
     if (sentimentScore) {
         sentimentScore.innerText = sentiment.toFixed(2);
-        const sentimentLabel = sentimentScore.nextElementSibling;
+        const sentimentLabel = document.getElementById("sentimentLabel");
         if (sentimentLabel) {
             if (sentiment > 0.2) sentimentLabel.innerText = "Positive Tone";
             else if (sentiment < -0.2) sentimentLabel.innerText = "Negative Tone";
@@ -206,34 +202,36 @@ async function processAnalyticsPipeline() {
         }
     }
 
-    // อัปเดต User Safety & Security Card (ถ้ามี UI Element)
-    const safetyScoreElem = document.getElementById("safetyScore");
-    if (safetyScoreElem) safetyScoreElem.innerText = `${safetyMetrics.score}%`;
-    const safetyStatusElem = document.getElementById("safetyStatusText");
-    if (safetyStatusElem) safetyStatusElem.innerText = safetyMetrics.status;
+    // Render Safety Metrics
+    const safetyScore = document.getElementById("safetyScore");
+    if (safetyScore) safetyScore.innerText = `${safetyMetrics.score}%`;
+    const safetyStatusText = document.getElementById("safetyStatusText");
+    if (safetyStatusText) safetyStatusText.innerText = safetyMetrics.status;
 
-    // crisis banner
+    // Render Crisis Banner
     const crisisBanner = document.getElementById("crisisBanner");
     if (crisisBanner) {
         if (isCrisis) crisisBanner.classList.remove("hidden");
         else crisisBanner.classList.add("hidden");
     }
 
-    // advice text
+    // Render AI Advice Text
     const adviceBox = document.getElementById("adviceText");
     if (adviceBox) {
         if (results.stressIndex >= 50) {
-            adviceBox.innerText = `คุณ${inputs.alias} มีระดับความเครียดสะสมค่อนข้างสูง (${results.stressIndex}%) แนะนำให้ลดชั่วโมงการอ่านหนังสือลง เพิ่มเวลาพักผ่อนแบบ Pomodoro 20/10 นาที และทำกิจกรรมผ่อนคลายร่างกายเพื่อลดความสุ่มเสี่ยงภาวะ Burnout ครับ`;
+            adviceBox.innerText = `คุณ${inputs.alias} มีระดับความเครียดสะสมค่อนข้างสูง (${results.stressIndex}%) แนะนำให้ลดชั่วโมงการอ่านหนังสือลง เพิ่มเวลาพักผ่อนแบบ Pomodoro 20/10 นาที และทำกิจกรรมผ่อนคลายเพื่อลดความสุ่มเสี่ยงภาวะ Burnout ครับ`;
         } else {
             adviceBox.innerText = `คุณ${inputs.alias} มีระดับความเครียดอยู่ในเกณฑ์ปกติ (${results.stressIndex}%) สามารถลุยงานและเตรียมสอบตามแผนปกติได้ดีครับ!`;
         }
     }
 
-    // schedule
+    // Render Adaptive Schedule
     const scheduleList = document.getElementById("scheduleList");
     if (scheduleList) {
         const scheduleData = generateAdaptiveSchedule(results.stressIndex);
-        scheduleList.innerHTML = scheduleData.map(s => `<li><span>${s.time}</span> <span>${s.task}</span></li>`).join('');
+        scheduleList.innerHTML = scheduleData.map(s => 
+            `<li><span class="s-time">${s.time}</span> <span class="s-task">${s.task}</span></li>`
+        ).join('');
     }
 
     updateRadarChart([inputs.q1, inputs.q2, inputs.q3, inputs.q4, inputs.q5]);
@@ -259,9 +257,10 @@ function initCharts() {
                 datasets: [{
                     label: 'ST-5 Dimension Score',
                     data: [0, 0, 0, 0, 0],
-                    backgroundColor: 'rgba(59, 96, 77, 0.2)',
-                    borderColor: '#3B604D',
-                    pointBackgroundColor: '#fff'
+                    backgroundColor: 'rgba(85, 122, 102, 0.2)',
+                    borderColor: '#557A66',
+                    pointBackgroundColor: '#557A66',
+                    pointBorderColor: '#fff'
                 }]
             },
             options: {
@@ -282,9 +281,11 @@ function initCharts() {
             data: {
                 labels: history.map((_, i) => `ครั้งที่ ${i+1}`),
                 datasets: [{
-                    label: 'Stress Index Trend (%)',
+                    label: 'Stress Trend (%)',
                     data: history,
-                    borderColor: '#0284c7',
+                    borderColor: '#557A66',
+                    backgroundColor: 'rgba(85, 122, 102, 0.1)',
+                    fill: true,
                     tension: 0.3
                 }]
             },
