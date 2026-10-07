@@ -7,8 +7,7 @@ let trendChartInstance = null;
 
 document.addEventListener("DOMContentLoaded", () => {
     initCharts();
-    loadHistoricalData();
-
+    
     document.getElementById("mentalForm").addEventListener("submit", async (e) => {
         e.preventDefault();
         await processAnalyticsPipeline();
@@ -20,7 +19,6 @@ document.addEventListener("DOMContentLoaded", () => {
 // --------------------------------------------------------
 function anonymizeData(text) {
     if (!text) return "";
-    // ลบตัวเลขรหัสนักศึกษา เบอร์โทรศัพท์ และอีเมลด้วย Regular Expression
     return text
         .replace(/\b\d{9,10}\b/g, "[STUDENT_ID_HIDDEN]")
         .replace(/\b0\d{8,9}\b/g, "[PHONE_HIDDEN]")
@@ -48,15 +46,12 @@ function calculateLexiconSentiment(text) {
 }
 
 function runAnalyticsEngine(inputs) {
-    // 1. Psychometric Score (ST-5: 0-15 Scores)
     const psychometricSum = inputs.q1 + inputs.q2 + inputs.q3 + inputs.q4 + inputs.q5;
     
-    // 2. Workload & Sleep Factors
     const taskRatio = Math.min(inputs.academicTasks / 10, 1.0);
     const sleepDeficit = Math.max(0, (8 - inputs.sleepHours) / 8);
     const moodFactor = (5 - inputs.emotionState) / 4;
 
-    // 3. Multi-Vector Weighted Calculation
     let rawStressIndex = (
         (psychometricSum / 15) * 40 +
         moodFactor * 20 +
@@ -67,7 +62,6 @@ function runAnalyticsEngine(inputs) {
 
     const finalStressIndex = Math.round(Math.max(0, Math.min(100, rawStressIndex)));
 
-    // Burnout Risk Classification
     let riskLevel = "LOW";
     let riskClass = "var(--risk-low)";
     if (finalStressIndex >= 75) { riskLevel = "CRITICAL"; riskClass = "var(--risk-high)"; }
@@ -110,7 +104,6 @@ async function processAnalyticsPipeline() {
     const statusText = document.getElementById("loadingStatusText");
     overlay.classList.remove("hidden");
 
-    // Form Extract
     const rawText = document.getElementById("reflectionText").value;
     const cleanText = anonymizeData(rawText);
     const sentiment = calculateLexiconSentiment(cleanText);
@@ -120,26 +113,23 @@ async function processAnalyticsPipeline() {
         emotionState: parseInt(document.getElementById("emotionState").value),
         academicTasks: parseInt(document.getElementById("academicTasks").value),
         sleepHours: parseFloat(document.getElementById("sleepHours").value),
-        q1: parseInt(document.querySelector('input[name="q1"]:checked').value),
-        q2: parseInt(document.querySelector('input[name="q2"]:checked').value),
-        q3: parseInt(document.querySelector('input[name="q3"]:checked').value),
-        q4: parseInt(document.querySelector('input[name="q4"]:checked').value),
-        q5: parseInt(document.querySelector('input[name="q5"]:checked').value),
+        q1: parseInt(document.querySelector('input[name="q1"]:checked')?.value || 0),
+        q2: parseInt(document.querySelector('input[name="q2"]:checked')?.value || 0),
+        q3: parseInt(document.querySelector('input[name="q3"]:checked')?.value || 0),
+        q4: parseInt(document.querySelector('input[name="q4"]:checked')?.value || 0),
+        q5: parseInt(document.querySelector('input[name="q5"]:checked')?.value || 0),
         sentimentScore: sentiment
     };
 
-    // Simulated Processing Steps
     statusText.innerText = "กำลังทำการ Anonymize ข้อมูลส่วนบุคคล...";
     await new Promise(r => setTimeout(r, 600));
 
     statusText.innerText = "กำลังวิเคราะห์ Psychometrics (ST-5) และ Sentiment...";
     await new Promise(r => setTimeout(r, 600));
 
-    // Calculate
     const results = runAnalyticsEngine(inputs);
     const isCrisis = detectCrisisKeywords(cleanText) || results.stressIndex >= 75;
 
-    // UI Update
     document.getElementById("stressScore").innerText = results.stressIndex;
     document.getElementById("stressProgressBar").style.width = `${results.stressIndex}%`;
     
@@ -149,12 +139,10 @@ async function processAnalyticsPipeline() {
 
     document.getElementById("sentimentScore").innerText = sentiment.toFixed(2);
 
-    // Crisis Banner
     const crisisBanner = document.getElementById("crisisBanner");
     if (isCrisis) crisisBanner.classList.remove("hidden");
     else crisisBanner.classList.add("hidden");
 
-    // Recommendations
     const adviceBox = document.getElementById("adviceText");
     if (results.stressIndex >= 70) {
         adviceBox.innerText = `คุณ ${inputs.alias} มีความเครียดสะสมระดับสูง แนะนำให้ลดชั่วโมงการอ่านหนังสือลง เพิ่มเวลาพักผ่อนแบบ Pomodoro 20/10 นาที และทำกิจกรรมผ่อนคลายร่างกายครับ`;
@@ -162,12 +150,10 @@ async function processAnalyticsPipeline() {
         adviceBox.innerText = `คุณ ${inputs.alias} มีระดับความเครียดในเกณฑ์ปกติ สามารถลุยงานและเตรียมสอบตามแผนปกติได้ดีครับ!`;
     }
 
-    // Schedule Render
     const scheduleList = document.getElementById("scheduleList");
     const scheduleData = generateAdaptiveSchedule(results.stressIndex);
     scheduleList.innerHTML = scheduleData.map(s => `<li><span>${s.time}</span> <span>${s.task}</span></li>`).join('');
 
-    // Charts Update
     updateRadarChart([inputs.q1, inputs.q2, inputs.q3, inputs.q4, inputs.q5]);
     saveAndRenderTrend(results.stressIndex);
 
@@ -200,13 +186,15 @@ function initCharts() {
     });
 
     const ctxTrend = document.getElementById("trendChart").getContext("2d");
+    let history = JSON.parse(localStorage.getItem("unimind_history") || "[40, 45, 30, 50, 60]");
+    
     trendChartInstance = new Chart(ctxTrend, {
         type: 'line',
         data: {
-            labels: ['1', '2', '3', '4', '5'],
+            labels: history.map((_, i) => `ครั้งที่ ${i+1}`),
             datasets: [{
                 label: 'Stress Index Trend (%)',
-                data: [40, 45, 30, 50, 60],
+                data: history,
                 borderColor: '#0284c7',
                 tension: 0.3
             }]
