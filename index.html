@@ -3,224 +3,299 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UniMind Pro - AI Mental Health Analytics</title>
+    <title>UniMind Pro - AI Mental Health Analytics Engine</title>
+    
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Top Navigation Bar -->
+    <!-- Header Navigation -->
     <header class="navbar">
-        <div class="brand">
-            <div class="brand-icon">🌱</div>
-            <div>
-                <h1 class="brand-title">UniMind <span>PRO</span></h1>
-                <p class="brand-sub">Mental Health & Academic Balance Engine</p>
+        <div class="nav-container">
+            <div class="brand">
+                <div class="brand-icon-wrapper">
+                    <span class="brand-icon">🌱</span>
+                </div>
+                <div class="brand-info">
+                    <div class="brand-header">
+                        <h1 class="brand-title">UniMind</h1>
+                        <span class="badge-pro">PRO ANALYTICS</span>
+                    </div>
+                    <p class="brand-sub">Academic Stress & Well-being Intelligence Engine</p>
+                </div>
             </div>
-        </div>
-        <div class="status-pill">
-            <span class="status-dot"></span>
-            <span>AI Guardrail Engine Active</span>
+            
+            <div class="nav-actions">
+                <div class="status-pill">
+                    <span class="status-dot"></span>
+                    <span class="status-text">AI Privacy Guardrail Active</span>
+                </div>
+            </div>
         </div>
     </header>
 
+    <!-- Main Dashboard Container -->
     <main class="dashboard-container">
-        <!-- Left Column: Input Controls -->
-        <section class="card input-section">
+        
+        <!-- Left Column: Input Form & Survey -->
+        <section class="card input-card">
             <div class="card-header">
-                <h2>📋 แบบประเมินสภาวะจิตใจประจำวัน</h2>
-                <p>คำนวณผ่านโมเดล Psychometrics (ST-5) และ Privacy Guardrail</p>
+                <div class="header-title">
+                    <span class="header-icon">📝</span>
+                    <div>
+                        <h2>แบบประเมินสภาวะจิตใจประจำวัน</h2>
+                        <p>วิเคราะห์ข้อมูลผ่านโมเดล Psychometrics (ST-5) และ Privacy Guardrail Engine</p>
+                    </div>
+                </div>
             </div>
 
-            <form id="mentalForm">
-                <div class="form-row">
+            <form id="mentalForm" class="form-body">
+                <div class="form-grid-2">
                     <div class="form-group">
                         <label for="alias">นามแฝง (Alias / Nickname)</label>
-                        <input type="text" id="alias" placeholder="เช่น Student_A" required>
+                        <div class="input-wrapper">
+                            <input type="text" id="alias" placeholder="เช่น Student_A" required>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="emotionState">อารมณ์วันนี้</label>
-                        <select id="emotionState" required>
-                            <option value="5">😁 สดใส / มีพลังเต็มเปี่ยม (5/5)</option>
-                            <option value="4">ผ่อนคลาย / อารมณ์ดี (4/5)</option>
-                            <option value="3" selected>เฉยๆ / ปกติเรื่อยๆ (3/5)</option>
-                            <option value="2">เหนื่อยล้า / มีเรื่องกังวล (2/5)</option>
-                            <option value="1">ดิ่ง / ท้อแท้มาก (1/5)</option>
-                        </select>
+                        <div class="select-wrapper">
+                            <select id="emotionState" required>
+                                <option value="5">😁 สดใส / มีพลังเต็มเปี่ยม (5/5)</option>
+                                <option value="4">ผ่อนคลาย / อารมณ์ดี (4/5)</option>
+                                <option value="3" selected>เฉยๆ / ปกติเรื่อยๆ (3/5)</option>
+                                <option value="2">เหนื่อยล้า / มีเรื่องกังวล (2/5)</option>
+                                <option value="1">ดิ่ง / ท้อแท้มาก (1/5)</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
-                <div class="form-row">
+                <div class="form-grid-2">
                     <div class="form-group">
-                        <label for="academicTasks">งานค้าง/วิชาสอบสัปดาห์นี้ (งาน)</label>
-                        <input type="number" id="academicTasks" min="0" max="20" value="3" required>
+                        <label for="academicTasks">งานค้าง / วิชาสอบสัปดาห์นี้</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="academicTasks" min="0" max="20" value="3" required>
+                            <span class="input-unit">งาน</span>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label for="sleepHours">ชั่วโมงการนอนเมื่อคืน (ชั่วโมง)</label>
-                        <input type="number" id="sleepHours" step="0.5" min="0" max="24" value="6.5" required>
+                        <label for="sleepHours">ชั่วโมงการนอนเมื่อคืน</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="sleepHours" step="0.5" min="0" max="24" value="6.5" required>
+                            <span class="input-unit">ชม.</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- ST-5 Psychometric Survey -->
-                <div class="st5-container">
-                    <h3>📊 แบบวัดระดับความรู้สึกสะสม 5 ข้อ (ช่วง 1 สัปดาห์)</h3>
-                    
-                    <div class="q-item">
-                        <p>1. มีปัญหาเกี่ยวกับการนอน นอนไม่หลับหรือนอนมากเกินไป?</p>
-                        <div class="radio-options">
-                            <label><input type="radio" name="q1" value="0" required> ไม่เลย (0)</label>
-                            <label><input type="radio" name="q1" value="1"> บางครั้ง (1)</label>
-                            <label><input type="radio" name="q1" value="2"> บ่อยครั้ง (2)</label>
-                            <label><input type="radio" name="q1" value="3"> ตลอดเวลา (3)</label>
-                        </div>
+                <!-- ST-5 Psychometric Survey Box -->
+                <div class="survey-card">
+                    <div class="survey-header">
+                        <h3>📊 แบบวัดระดับความรู้สึกสะสม 5 ข้อ (ST-5 Survey)</h3>
+                        <p>ประเมินความรู้สึกในช่วง 1 สัปดาห์ที่ผ่านมา</p>
                     </div>
 
-                    <div class="q-item">
-                        <p>2. รู้สึกสมาธิสั้น หรือไม่มีสมาธิในการเรียน/อ่านหนังสือ?</p>
-                        <div class="radio-options">
-                            <label><input type="radio" name="q2" value="0" required> ไม่เลย (0)</label>
-                            <label><input type="radio" name="q2" value="1"> บางครั้ง (1)</label>
-                            <label><input type="radio" name="q2" value="2"> บ่อยครั้ง (2)</label>
-                            <label><input type="radio" name="q2" value="3"> ตลอดเวลา (3)</label>
+                    <div class="q-list">
+                        <div class="q-item">
+                            <p class="q-title">1. มีปัญหาเกี่ยวกับการนอน นอนไม่หลับหรือนอนมากเกินไป?</p>
+                            <div class="radio-group">
+                                <label class="radio-btn"><input type="radio" name="q1" value="0" required><span>ไม่เลย (0)</span></label>
+                                <label class="radio-btn"><input type="radio" name="q1" value="1"><span>บางครั้ง (1)</span></label>
+                                <label class="radio-btn"><input type="radio" name="q1" value="2"><span>บ่อยครั้ง (2)</span></label>
+                                <label class="radio-btn"><input type="radio" name="q1" value="3"><span>ตลอดเวลา (3)</span></label>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="q-item">
-                        <p>3. รู้สึกหงุดหงิด กังวลใจ หรือกระสับกระส่ายง่ายกว่าปกติ?</p>
-                        <div class="radio-options">
-                            <label><input type="radio" name="q3" value="0" required> ไม่เลย (0)</label>
-                            <label><input type="radio" name="q3" value="1"> บางครั้ง (1)</label>
-                            <label><input type="radio" name="q3" value="2"> บ่อยครั้ง (2)</label>
-                            <label><input type="radio" name="q3" value="3"> ตลอดเวลา (3)</label>
+                        <div class="q-item">
+                            <p class="q-title">2. รู้สึกสมาธิสั้น หรือไม่มีสมาธิในการเรียน/อ่านหนังสือ?</p>
+                            <div class="radio-group">
+                                <label class="radio-btn"><input type="radio" name="q2" value="0" required><span>ไม่เลย (0)</span></label>
+                                <label class="radio-btn"><input type="radio" name="q2" value="1"><span>บางครั้ง (1)</span></label>
+                                <label class="radio-btn"><input type="radio" name="q2" value="2"><span>บ่อยครั้ง (2)</span></label>
+                                <label class="radio-btn"><input type="radio" name="q2" value="3"><span>ตลอดเวลา (3)</span></label>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="q-item">
-                        <p>4. รู้สึกหมดพลัง ไม่อยากทำกิจกรรมที่เคยชอบ หรือท้อแท้กับการเรียน?</p>
-                        <div class="radio-options">
-                            <label><input type="radio" name="q4" value="0" required> ไม่เลย (0)</label>
-                            <label><input type="radio" name="q4" value="1"> บางครั้ง (1)</label>
-                            <label><input type="radio" name="q4" value="2"> บ่อยครั้ง (2)</label>
-                            <label><input type="radio" name="q4" value="3"> ตลอดเวลา (3)</label>
+                        <div class="q-item">
+                            <p class="q-title">3. รู้สึกหงุดหงิด กังวลใจ หรือกระสับกระส่ายง่ายกว่าปกติ?</p>
+                            <div class="radio-group">
+                                <label class="radio-btn"><input type="radio" name="q3" value="0" required><span>ไม่เลย (0)</span></label>
+                                <label class="radio-btn"><input type="radio" name="q3" value="1"><span>บางครั้ง (1)</span></label>
+                                <label class="radio-btn"><input type="radio" name="q3" value="2"><span>บ่อยครั้ง (2)</span></label>
+                                <label class="radio-btn"><input type="radio" name="q3" value="3"><span>ตลอดเวลา (3)</span></label>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="q-item">
-                        <p>5. รู้สึกว่าไม่สามารถจัดการกับความเครียดหรือภาระงานที่มีอยู่ได้?</p>
-                        <div class="radio-options">
-                            <label><input type="radio" name="q5" value="0" required> ไม่เลย (0)</label>
-                            <label><input type="radio" name="q5" value="1"> บางครั้ง (1)</label>
-                            <label><input type="radio" name="q5" value="2"> บ่อยครั้ง (2)</label>
-                            <label><input type="radio" name="q5" value="3"> ตลอดเวลา (3)</label>
+                        <div class="q-item">
+                            <p class="q-title">4. รู้สึกหมดพลัง ไม่อยากทำกิจกรรมที่เคยชอบ หรือท้อแท้กับการเรียน?</p>
+                            <div class="radio-group">
+                                <label class="radio-btn"><input type="radio" name="q4" value="0" required><span>ไม่เลย (0)</span></label>
+                                <label class="radio-btn"><input type="radio" name="q4" value="1"><span>บางครั้ง (1)</span></label>
+                                <label class="radio-btn"><input type="radio" name="q4" value="2"><span>บ่อยครั้ง (2)</span></label>
+                                <label class="radio-btn"><input type="radio" name="q4" value="3"><span>ตลอดเวลา (3)</span></label>
+                            </div>
+                        </div>
+
+                        <div class="q-item">
+                            <p class="q-title">5. รู้สึกว่าไม่สามารถจัดการกับความเครียดหรือภาระงานที่มีอยู่ได้?</p>
+                            <div class="radio-group">
+                                <label class="radio-btn"><input type="radio" name="q5" value="0" required><span>ไม่เลย (0)</span></label>
+                                <label class="radio-btn"><input type="radio" name="q5" value="1"><span>บางครั้ง (1)</span></label>
+                                <label class="radio-btn"><input type="radio" name="q5" value="2"><span>บ่อยครั้ง (2)</span></label>
+                                <label class="radio-btn"><input type="radio" name="q5" value="3"><span>ตลอดเวลา (3)</span></label>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="reflectionText">สิ่งที่กังวลใจหรืออยากระบายวันนี้ <span class="shield-tag">🔒 Anonymized Guardrail Enabled</span></label>
+                    <div class="label-with-badge">
+                        <label for="reflectionText">สิ่งที่กังวลใจหรืออยากระบายวันนี้</label>
+                        <span class="shield-badge">🔒 Anonymized Guardrail Enabled</span>
+                    </div>
                     <textarea id="reflectionText" rows="3" placeholder="ระบายความรู้สึก... (ระบบจะทำ Anonymize ซ่อนรหัสนักศึกษา/เบอร์โทร/อีเมล ก่อนส่ง AI ประมวลผล)"></textarea>
                 </div>
 
-                <button type="submit" class="btn-primary">⚡ ประมวลผลด้วย AI Analytics Engine</button>
+                <button type="submit" class="btn-submit">
+                    <span class="btn-icon">⚡</span>
+                    <span>ประมวลผลด้วย AI Analytics Engine</span>
+                </button>
             </form>
         </section>
 
-        <!-- Right Column: Results & Dashboard -->
-        <section class="card display-section">
+        <!-- Right Column: Results & Interactive Dashboard -->
+        <section class="card display-card">
             <div class="card-header space-between">
-                <h2>ผลการวิเคราะห์สภาวะจิตใจ & แผนปฏิบัติการ</h2>
-                <span id="reportTime" class="time-stamp">--/--/---- --:--</span>
+                <div class="header-title">
+                    <span class="header-icon">📈</span>
+                    <div>
+                        <h2>ผลการวิเคราะห์ & แผนปฏิบัติการ</h2>
+                        <p>วิเคราะห์ข้อมูลสภาวะจิตใจเชิงลึกแบบเรียลไทม์</p>
+                    </div>
+                </div>
+                <div id="reportTime" class="time-badge">--/--/---- --:--</div>
             </div>
 
-            <!-- Emergency Crisis Alert -->
+            <!-- Emergency Crisis Alert Banner -->
             <div id="crisisBanner" class="crisis-alert hidden">
-                <div class="alert-icon">🚨</div>
-                <div>
+                <div class="alert-icon-bg">🚨</div>
+                <div class="alert-content">
                     <h4>คำเตือน: ตรวจพบระดับความเครียด/ความกังวลสูงวิกฤต!</h4>
                     <p>กรุณาพักการทำงานทันที และติดต่อศูนย์ให้คำปรึกษาด่วน สายด่วนสุขภาพจิต <strong>1323 (โทรฟรี 24 ชม.)</strong></p>
                 </div>
             </div>
 
-            <!-- Top 4 Analytics Cards -->
+            <!-- Top 4 Analytics Metric Cards -->
             <div class="analytics-grid">
                 <div class="metric-card">
-                    <span class="m-label">Stress Index</span>
-                    <div class="m-value">
-                        <span id="stressScore">0</span><small>%</small>
+                    <div class="metric-head">
+                        <span class="m-title">Stress Index</span>
+                        <span class="m-icon">🎯</span>
                     </div>
-                    <div class="bar-bg">
-                        <div id="stressProgressBar" class="bar-fill" style="width: 0%;"></div>
+                    <div class="metric-body">
+                        <span id="stressScore" class="m-val">0</span><span class="m-unit">%</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div id="stressProgressBar" class="progress-bar-fill" style="width: 0%;"></div>
                     </div>
                 </div>
 
                 <div class="metric-card">
-                    <span class="m-label">Burnout Risk Level</span>
-                    <div class="m-value">
-                        <span id="burnoutRiskBadge" class="badge-tag low">LOW</span>
+                    <div class="metric-head">
+                        <span class="m-title">Burnout Risk</span>
+                        <span class="m-icon">🔥</span>
+                    </div>
+                    <div class="metric-body">
+                        <span id="burnoutRiskBadge" class="badge-risk low">LOW</span>
                     </div>
                     <span id="burnoutRiskSub" class="m-sub">ภาวะสมดุลการเรียนปกติ</span>
                 </div>
 
                 <div class="metric-card">
-                    <span class="m-label">NLP Sentiment Score</span>
-                    <div class="m-value">
-                        <span id="sentimentScore">0.00</span>
+                    <div class="metric-head">
+                        <span class="m-title">Sentiment Score</span>
+                        <span class="m-icon">💬</span>
+                    </div>
+                    <div class="metric-body">
+                        <span id="sentimentScore" class="m-val">0.00</span>
                     </div>
                     <span id="sentimentLabel" class="m-sub">Neutral Tone</span>
                 </div>
 
                 <div class="metric-card">
-                    <span class="m-label">Privacy & Ethics Guardrail</span>
-                    <div class="m-value green-text">
-                        <span id="safetyScore">100%</span>
+                    <div class="metric-head">
+                        <span class="m-title">Privacy Guardrail</span>
+                        <span class="m-icon">🛡️</span>
+                    </div>
+                    <div class="metric-body text-sage">
+                        <span id="safetyScore" class="m-val">100%</span>
                     </div>
                     <span id="safetyStatusText" class="m-sub">Anonymized & Shielded</span>
                 </div>
             </div>
 
-            <!-- Charts Section -->
-            <div class="charts-row">
-                <div class="chart-box">
-                    <h4>5-Dimension Psychometric Profile</h4>
-                    <div class="canvas-holder">
+            <!-- Interactive Visual Charts Section -->
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h4>5-Dimension Psychometric Profile</h4>
+                    </div>
+                    <div class="chart-container">
                         <canvas id="radarChart"></canvas>
                     </div>
                 </div>
-                <div class="chart-box">
-                    <h4>📈 Historical Stress Trend</h4>
-                    <div class="canvas-holder">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h4>Historical Stress Trend</h4>
+                    </div>
+                    <div class="chart-container">
                         <canvas id="trendChart"></canvas>
                     </div>
                 </div>
             </div>
 
-            <!-- AI Advice Box -->
-            <div class="advice-box">
-                <h4>💡 ข้อแนะนำการดูแลตนเองจากระบบ AI</h4>
-                <p id="adviceText">กดปุ่ม "ประมวลผลด้วย AI Analytics Engine" เพื่อให้ AI คำนวณผลลัพธ์แบบเรียลไทม์...</p>
+            <!-- AI Personal Insight & Advice -->
+            <div class="insight-card">
+                <div class="insight-header">
+                    <span class="insight-icon">💡</span>
+                    <h4>คำแนะนำและแนวทางดูแลตนเองจาก AI</h4>
+                </div>
+                <p id="adviceText" class="insight-text">กรุณากรอกข้อมูลและกดปุ่ม "ประมวลผลด้วย AI Analytics Engine" เพื่อรับการคำนวณและวิเคราะห์สภาวะจิตใจ...</p>
             </div>
 
             <!-- Adaptive Pomodoro Schedule -->
-            <div class="schedule-box">
-                <h4>⏱️ Adaptive Pomodoro Schedule (ตารางปรับตามสภาวะจิตใจ)</h4>
-                <ul id="scheduleList" class="schedule-items">
-                    <li><span class="s-time">--:--</span> <span class="s-task">รอข้อมูลประมวลผล...</span></li>
+            <div class="schedule-card">
+                <div class="schedule-header">
+                    <span class="schedule-icon">⏱️</span>
+                    <h4>Adaptive Pomodoro Schedule (ตารางจัดเวลาเรียนตามสภาวะจิตใจ)</h4>
+                </div>
+                <ul id="scheduleList" class="schedule-list">
+                    <li class="schedule-empty">
+                        <span class="s-time">--:--</span>
+                        <span class="s-task">รอข้อมูลประมวลผลเพื่อสร้างตารางเรียน...</span>
+                    </li>
                 </ul>
             </div>
 
-            <button onclick="exportJSONReport()" class="btn-secondary">📥 ดาวน์โหลดรายงานสรุป (.JSON)</button>
+            <button onclick="exportJSONReport()" class="btn-export">
+                <span>📥 ดาวน์โหลดรายงานสรุป (.JSON)</span>
+            </button>
         </section>
     </main>
 
-    <!-- Loading Overlay -->
+    <!-- Professional Loading Overlay -->
     <div id="loadingOverlay" class="overlay hidden">
-        <div class="spinner"></div>
-        <p id="loadingStatusText">กำลังทำการ Anonymize ข้อมูลส่วนบุคคล...</p>
+        <div class="glass-loader">
+            <div class="spinner"></div>
+            <p id="loadingStatusText" class="loading-text">กำลังประมวลผลข้อมูลผ่าน AI Guardrail...</p>
+        </div>
     </div>
 
     <script src="app.js"></script>
