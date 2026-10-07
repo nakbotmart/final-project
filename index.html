@@ -3,232 +3,214 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UniMind Pro - Academic Mental Health & Performance Analytics</title>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Chart.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>UniMind Pro Analytics</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
-    <!-- Background Orbs -->
-    <div class="bg-orb orb-1"></div>
-    <div class="bg-orb orb-2"></div>
-    <div class="bg-orb orb-3"></div>
+    <!-- Header -->
+    <header class="navbar">
+        <div class="logo">
+            <h2>UniMind</h2>
+            <span class="badge">PRO ANALYTICS</span>
+        </div>
+        <div class="status-indicator">
+            <span class="status-dot"></span>
+            <span>AI Health Engine Active</span>
+        </div>
+    </header>
 
-    <div class="container">
-        <!-- Header -->
-        <header class="navbar">
-            <div class="logo">
-                <i class="fa-solid fa-brain-circuit icon-logo"></i>
-                <span>UniMind <small>PRO ANALYTICS</small></span>
+    <main class="container">
+        <!-- Left Column: Input Form -->
+        <section class="form-section">
+            <div class="card-header">
+                <h3>📋 แบบประเมินสภาวะจิตใจประจำวัน</h3>
+                <p>ระบบวิเคราะห์ดรรชนีความเครียดสะสมและการบริหารเวลาสำหรับนักศึกษา</p>
             </div>
-            <div class="status-badge">
-                <span class="pulse-dot"></span> AI Health Engine Active
+
+            <form id="mentalForm">
+                <div class="form-group-grid">
+                    <div class="form-group">
+                        <label for="alias">นามแฝง (Alias / Nickname)</label>
+                        <input type="text" id="alias" placeholder="ระบุนามแฝงของคุณ" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="emotionState">อารมณ์ความรู้สึกวันนี้</label>
+                        <select id="emotionState" required>
+                            <option value="5">😁 สดใส/มีพลัง (5/5)</option>
+                            <option value="4">ผ่อนคลาย/ปกติ (4/5)</option>
+                            <option value="3" selected>เฉยๆ/เรื่อยๆ (3/5)</option>
+                            <option value="2">กังวล/เหนื่อยล้า (2/5)</option>
+                            <option value="1">ดิ่ง/ท้อแท้มาก (1/5)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group-grid">
+                    <div class="form-group">
+                        <label for="academicTasks">งานค้าง/วิชาสอบสัปดาห์นี้ (งาน)</label>
+                        <input type="number" id="academicTasks" min="0" max="20" value="3" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="sleepHours">ชั่วโมงการนอนเมื่อคืน (ชั่วโมง)</label>
+                        <input type="number" id="sleepHours" step="0.5" min="0" max="24" value="6.5" required>
+                    </div>
+                </div>
+
+                <!-- ST-5 Psychometric Questions -->
+                <div class="psychometric-box">
+                    <h4>📋 แบบวัดระดับความรู้สึกสะสม 5 ข้อ (ช่วง 1 สัปดาห์ที่ผ่านมา)</h4>
+                    
+                    <div class="question-item">
+                        <p>1. มีปัญหาเกี่ยวกับการนอน นอนไม่หลับหรือนอนมากเกินไป?</p>
+                        <div class="radio-group">
+                            <label><input type="radio" name="q1" value="0" required> ไม่เลย (0)</label>
+                            <label><input type="radio" name="q1" value="1"> บางครั้ง (1)</label>
+                            <label><input type="radio" name="q1" value="2"> บ่อยครั้ง (2)</label>
+                            <label><input type="radio" name="q1" value="3"> ตลอดเวลา (3)</label>
+                        </div>
+                    </div>
+
+                    <div class="question-item">
+                        <p>2. รู้สึกสมาธิสั้น หรือไม่มีสมาธิในการเรียน/อ่านหนังสือ?</p>
+                        <div class="radio-group">
+                            <label><input type="radio" name="q2" value="0" required> ไม่เลย (0)</label>
+                            <label><input type="radio" name="q2" value="1"> บางครั้ง (1)</label>
+                            <label><input type="radio" name="q2" value="2"> บ่อยครั้ง (2)</label>
+                            <label><input type="radio" name="q2" value="3"> ตลอดเวลา (3)</label>
+                        </div>
+                    </div>
+
+                    <div class="question-item">
+                        <p>3. รู้สึกหงุดหงิด กังวลใจ หรือกระสับกระส่ายง่ายกว่าปกติ?</p>
+                        <div class="radio-group">
+                            <label><input type="radio" name="q3" value="0" required> ไม่เลย (0)</label>
+                            <label><input type="radio" name="q3" value="1"> บางครั้ง (1)</label>
+                            <label><input type="radio" name="q3" value="2"> บ่อยครั้ง (2)</label>
+                            <label><input type="radio" name="q3" value="3"> ตลอดเวลา (3)</label>
+                        </div>
+                    </div>
+
+                    <div class="question-item">
+                        <p>4. รู้สึกหมดพลัง ไม่อยากทำกิจกรรมที่เคยชอบ หรือท้อแท้กับการเรียน?</p>
+                        <div class="radio-group">
+                            <label><input type="radio" name="q4" value="0" required> ไม่เลย (0)</label>
+                            <label><input type="radio" name="q4" value="1"> บางครั้ง (1)</label>
+                            <label><input type="radio" name="q4" value="2"> บ่อยครั้ง (2)</label>
+                            <label><input type="radio" name="q4" value="3"> ตลอดเวลา (3)</label>
+                        </div>
+                    </div>
+
+                    <div class="question-item">
+                        <p>5. รู้สึกว่าไม่สามารถจัดการกับความเครียดหรือภาระงานที่มีอยู่ได้?</p>
+                        <div class="radio-group">
+                            <label><input type="radio" name="q5" value="0" required> ไม่เลย (0)</label>
+                            <label><input type="radio" name="q5" value="1"> บางครั้ง (1)</label>
+                            <label><input type="radio" name="q5" value="2"> บ่อยครั้ง (2)</label>
+                            <label><input type="radio" name="q5" value="3"> ตลอดเวลา (3)</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="reflectionText">สิ่งที่กังวลใจหรืออยากระบายวันนี้ <small>(Anonymized Guardrail Enabled)</small></label>
+                    <textarea id="reflectionText" rows="3" placeholder="ระบายความรู้สึก ความกังวลเกี่ยวกับการสอบ หรือโปรเจกต์... (ระบบจะลบข้อมูลระบุตัวตนให้อัตโนมัติก่อนประมวลผล)"></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit">⚙️ ประมวลผลด้วย AI Analytics Engine</button>
+            </form>
+        </section>
+
+        <!-- Right Column: Analytics Results -->
+        <section class="results-section">
+            <div class="card-header">
+                <h3>ผลการวิเคราะห์สภาวะจิตใจ & แผนปฏิบัติการ</h3>
+                <span id="reportTime" class="report-time">--/--/---- --:--</span>
             </div>
-        </header>
 
-        <!-- Main Layout -->
-        <main class="main-grid">
-            
-            <!-- Left Side: Assessment Form -->
-            <section class="card glass-card form-section">
-                <div class="card-header">
-                    <h2><i class="fa-solid fa-clipboard-check"></i> แบบประเมินสภาวะจิตใจประจำวัน</h2>
-                    <p class="subtitle">ระบบวิเคราะห์ดรรชนีความเครียดสะสมและการบริหารเวลาสำหรับนักศึกษา</p>
-                </div>
+            <!-- Crisis Banner -->
+            <div id="crisisBanner" class="crisis-banner hidden">
+                ⚠️ <strong>คำเตือน: ตรวจพบระดับความเครียด/ความกังวลสูงวิกฤต!</strong>
+                <p>กรุณาพักการทำงานทันที และติดต่อศูนย์ให้คำปรึกษาด่วนสายด่วนสุขภาพจิต <strong>1323 (โทรฟรี 24 ชม.)</strong></p>
+            </div>
 
-                <form id="mentalForm">
-                    <!-- Basic Info -->
-                    <div class="form-group-row">
-                        <div class="input-group">
-                            <label for="alias">นามแฝง (Alias / Nickname)</label>
-                            <input type="text" id="alias" placeholder="เช่น Student_A" required>
-                        </div>
-                        <div class="input-group">
-                            <label for="emotionState">อารมณ์ความรู้สึกวันนี้</label>
-                            <select id="emotionState" required>
-                                <option value="5">😊 สดใส กระปรี้กระเปร่า (5/5)</option>
-                                <option value="4" selected>😐 ปกติ เรียบเฉย (4/5)</option>
-                                <option value="3">เหนื่อยล้า อ่อนแรง (3/5)</option>
-                                <option value="2">อารมณ์เสีย/กังวล (2/5)</option>
-                                <option value="1">😭 ดิ่ง/ท้อแท้มาก (1/5)</option>
-                            </select>
-                        </div>
+            <!-- Metric Cards (4 Cards Grid) -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <span class="metric-title">Stress Index</span>
+                    <div class="metric-value-box">
+                        <span class="metric-number" id="stressScore">0</span><span class="unit">%</span>
                     </div>
-
-                    <div class="form-group-row">
-                        <div class="input-group">
-                            <label for="academicTasks">งานค้าง/วิชาสอบสัปดาห์นี้ (งาน)</label>
-                            <input type="number" id="academicTasks" min="0" max="20" value="3" required>
-                        </div>
-                        <div class="input-group">
-                            <label for="sleepHours">ชั่วโมงการนอนเมื่อคืน (ชั่วโมง)</label>
-                            <input type="number" id="sleepHours" min="0" max="24" step="0.5" value="6" required>
-                        </div>
-                    </div>
-
-                    <!-- 5-Question Psychometric Assessment (ST-5) -->
-                    <div class="psychometric-box">
-                        <h3><i class="fa-solid fa-list-check"></i> แบบวัดระดับความรู้สึกสะสม 5 ข้อ (ช่วง 1 สัปดาห์ที่ผ่านมา)</h3>
-                        
-                        <div class="q-item">
-                            <label>1. มีปัญหาเกี่ยวกับการนอน นอนไม่หลับหรือนอนมากเกินไป?</label>
-                            <div class="scale-options">
-                                <label><input type="radio" name="q1" value="0" required> ไม่เลย (0)</label>
-                                <label><input type="radio" name="q1" value="1"> บางครั้ง (1)</label>
-                                <label><input type="radio" name="q1" value="2"> บ่อยครั้ง (2)</label>
-                                <label><input type="radio" name="q1" value="3"> ตลอดเวลา (3)</label>
-                            </div>
-                        </div>
-
-                        <div class="q-item">
-                            <label>2. รู้สึกสมาธิสั้น หรือไม่มีสมาธิในการเรียน/อ่านหนังสือ?</label>
-                            <div class="scale-options">
-                                <label><input type="radio" name="q2" value="0" required> ไม่เลย (0)</label>
-                                <label><input type="radio" name="q2" value="1"> บางครั้ง (1)</label>
-                                <label><input type="radio" name="q2" value="2"> บ่อยครั้ง (2)</label>
-                                <label><input type="radio" name="q2" value="3"> ตลอดเวลา (3)</label>
-                            </div>
-                        </div>
-
-                        <div class="q-item">
-                            <label>3. รู้สึกหงุดหงิด กังวลใจ หรือกระสับกระส่ายง่ายกว่าปกติ?</label>
-                            <div class="scale-options">
-                                <label><input type="radio" name="q3" value="0" required> ไม่เลย (0)</label>
-                                <label><input type="radio" name="q3" value="1"> บางครั้ง (1)</label>
-                                <label><input type="radio" name="q3" value="2"> บ่อยครั้ง (2)</label>
-                                <label><input type="radio" name="q3" value="3"> ตลอดเวลา (3)</label>
-                            </div>
-                        </div>
-
-                        <div class="q-item">
-                            <label>4. รู้สึกหมดพลัง ไม่อยากทำกิจกรรมที่เคยชอบ หรือท้อแท้กับการเรียน?</label>
-                            <div class="scale-options">
-                                <label><input type="radio" name="q4" value="0" required> ไม่เลย (0)</label>
-                                <label><input type="radio" name="q4" value="1"> บางครั้ง (1)</label>
-                                <label><input type="radio" name="q4" value="2"> บ่อยครั้ง (2)</label>
-                                <label><input type="radio" name="q4" value="3"> ตลอดเวลา (3)</label>
-                            </div>
-                        </div>
-
-                        <div class="q-item">
-                            <label>5. รู้สึกว่าไม่สามารถจัดการกับความเครียดหรือภาระงานที่มีอยู่ได้?</label>
-                            <div class="scale-options">
-                                <label><input type="radio" name="q5" value="0" required> ไม่เลย (0)</label>
-                                <label><input type="radio" name="q5" value="1"> บางครั้ง (1)</label>
-                                <label><input type="radio" name="q5" value="2"> บ่อยครั้ง (2)</label>
-                                <label><input type="radio" name="q5" value="3"> ตลอดเวลา (3)</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Open Text Reflection -->
-                    <div class="input-group full-width">
-                        <label for="reflectionText">สิ่งที่กังวลใจหรืออยากระบายวันนี้ (Anonymized Guardrail Enabled)[cite: 1]</label>
-                        <textarea id="reflectionText" rows="3" placeholder="ระบายความรู้สึก ความกังวลเกี่ยวกับการสอบ หรือโปรเจกต์... (ระบบจะลบข้อมูลระบุตัวตนให้อัตโนมัติก่อนประมวลผล)[cite: 1]"></textarea>
-                    </div>
-
-                    <button type="submit" id="btnSubmit" class="btn-primary">
-                        <i class="fa-solid fa-microchip"></i> ประมวลผลด้วย AI Analytics Engine
-                    </button>
-                </form>
-            </section>
-
-            <!-- Right Side: Analytics Dashboard -->
-            <section class="card glass-card dashboard-section">
-                
-                <!-- Loading Overlay -->
-                <div id="loadingOverlay" class="loading-overlay hidden">
-                    <div class="spinner"></div>
-                    <p id="loadingStatusText">กำลังเริ่มต้นระบบ Anonymization Engine...</p>[cite: 1]
-                </div>
-
-                <div class="card-header border-b">
-                    <h2><i class="fa-solid fa-chart-network"></i> ผลการวิเคราะห์สภาวะจิตใจ & แผนปฏิบัติการ</h2>
-                    <span class="timestamp" id="reportTime">--/--/---- --:--</span>
-                </div>
-
-                <!-- Emergency Crisis Banner -->
-                <div id="crisisBanner" class="crisis-banner hidden">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                    <div>
-                        <strong>คำเตือน: ตรวจพบระดับความเครียด/ความกังวลสูงวิกฤต!</strong>
-                        <p>กรุณาพักการทำงานทันที และติดต่อศูนย์ให้คำปรึกษาหรือสายด่วนสุขภาพจิต <strong>1323 (โทรฟรี 24 ชม.)</strong></p>
+                    <div class="progress-bar-container">
+                        <div id="stressProgressBar" class="progress-bar" style="width: 0%;"></div>
                     </div>
                 </div>
 
-                <!-- Metrics Grid -->
-                <div class="metrics-grid">
-                    <div class="metric-card">
-                        <span class="metric-title">Stress Index</span>
-                        <div class="metric-value-box">
-                            <span class="metric-number" id="stressScore">0</span><small>%</small>
-                        </div>
-                        <div class="progress-bar-bg"><div id="stressProgressBar" class="progress-bar-fill"></div></div>
+                <div class="metric-card">
+                    <span class="metric-title">Burnout Risk Level</span>
+                    <div class="metric-value-box">
+                        <span id="burnoutRiskBadge" class="risk-badge">LOW</span>
                     </div>
-
-                    <div class="metric-card">
-                        <span class="metric-title">Burnout Risk Level</span>
-                        <div class="metric-value-box">
-                            <span class="badge-risk" id="burnoutRiskBadge">LOW</span>
-                        </div>
-                        <span class="metric-sub" id="burnoutSub">ระดับความเสี่ยงต่อภาวะความเครียด</span>
-                    </div>
-
-                    <div class="metric-card">
-                        <span class="metric-title">NLP Sentiment Score</span>
-                        <div class="metric-value-box">
-                            <span class="metric-number" id="sentimentScore">0.00</span>
-                        </div>
-                        <span class="metric-sub" id="sentimentLabel">Neutral Tone</span>
-                    </div>
+                    <span class="subtitle">ภาวะสมดุลการเรียนปกติ</span>
                 </div>
 
-                <!-- Charts Layout -->
-                <div class="charts-grid">
-                    <div class="chart-box">
-                        <h3><i class="fa-solid fa-radar"></i> 5-Dimension Psychometric Profile</h3>
-                        <div class="chart-container">
-                            <canvas id="radarChart"></canvas>
-                        </div>
+                <div class="metric-card">
+                    <span class="metric-title">NLP Sentiment Score</span>
+                    <div class="metric-value-box">
+                        <span class="metric-number" id="sentimentScore">0.00</span>
                     </div>
-                    <div class="chart-box">
-                        <h3><i class="fa-solid fa-chart-line"></i> Historical Stress Trend</h3>
-                        <div class="chart-container">
-                            <canvas id="trendChart"></canvas>
-                        </div>
+                    <span class="subtitle">Neutral Tone</span>
+                </div>
+
+                <div class="metric-card">
+                    <span class="metric-title">Privacy & Safety Guardrail</span>
+                    <div class="metric-value-box">
+                        <span class="metric-number" id="safetyScore">100%</span>
+                    </div>
+                    <span class="subtitle" id="safetyStatusText">Anonymized & Secure</span>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <h5>5-Dimension Psychometric Profile</h5>
+                    <div class="chart-container">
+                        <canvas id="radarChart"></canvas>
                     </div>
                 </div>
-
-                <!-- Dynamic Recommendations -->
-                <div class="recommendation-box">
-                    <h3><i class="fa-solid fa-user-doctor"></i> ข้อแนะนำการดูแลตนเองจากระบบ AI</h3>
-                    <p id="adviceText">กดปุ่ม "ประมวลผลด้วย AI Analytics Engine" เพื่อรับข้อแนะนำเฉพาะบุคคล...</p>
+                <div class="chart-card">
+                    <h5>📈 Historical Stress Trend</h5>
+                    <div class="chart-container">
+                        <canvas id="trendChart"></canvas>
+                    </div>
                 </div>
+            </div>
 
-                <!-- Adaptive Pomodoro Schedule -->
-                <div class="schedule-box">
-                    <h3><i class="fa-solid fa-clock-rotate-left"></i> Adaptive Pomodoro Schedule (ตารางปรับตามสภาวะจิตใจ)</h3>
-                    <ul id="scheduleList" class="schedule-list">
-                        <li><span>--:--</span> <span>รอมูลประมวลผล...</span></li>
-                    </ul>
-                </div>
+            <!-- AI Advice Box -->
+            <div class="advice-card">
+                <h5>🤖 ข้อแนะนำการดูแลตนเองจากระบบ AI</h5>
+                <p id="adviceText">กดปุ่ม "ประมวลผลด้วย AI Analytics Engine" เพื่อรับข้อแนะนำเฉพาะบุคคล...</p>
+            </div>
 
-                <!-- Export Button -->
-                <div class="action-footer">
-                    <button id="btnExport" class="btn-secondary" onclick="exportJSONReport()">
-                        <i class="fa-solid fa-file-export"></i> ดาวน์โหลดรายงานสรุป (.JSON)
-                    </button>
-                </div>
-            </section>
+            <!-- Schedule Recommendation -->
+            <div class="schedule-card">
+                <h5>⏱️ Adaptive Pomodoro Schedule (ตารางปรับตามสภาวะจิตใจ)</h5>
+                <ul id="scheduleList" class="schedule-list">
+                    <li><span>--:--</span> <span>รอข้อมูลประมวลผล...</span></li>
+                </ul>
+            </div>
 
-        </main>
+            <button onclick="exportJSONReport()" class="btn-export">📁 ดาวน์โหลดรายงานสรุป (.JSON)</button>
+        </section>
+    </main>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="spinner"></div>
+        <p id="loadingStatusText">กำลังวิเคราะห์ข้อมูล...</p>
     </div>
 
     <script src="app.js"></script>
